@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Web Kasir</title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background-image: url('w4k.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+h1 {
+  text-align: center;
+  color:#f2f2f2
+}
+
+table {
+  margin: 20px auto;
+  border-collapse: collapse;
+  width: 80%;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+  color:#f2f2f2
+}
+
+th {
+  background-color: #6d003c;
+  color:#f2f2f2
+}
+
+input[type="text"], input[type="number"] {
+  width: 100%;
+  padding: 5px;
+  box-sizing: border-box;
+}
+
+.total {
+  margin-top: 20px;
+  text-align: right;
+  color:#f2f2f2
+}
+
+button {
+  display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  background-color: rgb(0, 255, 55);
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: rgb(0, 89, 253);
+  transition: 1s;
+}
+*,
+*:after {
+  box-sizing: border-box;
+}
+
+body {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  background-image: url(w4k.jpg);
+}
+
+h2 {
+  font-size: clamp(3rem, 15vmin, 8rem);
+  font-family: sans-serif;
+  color: hsl(0, 0%, 100%);
+}
+
+.underlined {
+  position: relative;
+}
+
+.underline-mask:after {
+  content: '';
+  position: absolute;
+  top: 95%;
+  width: 150%;
+  aspect-ratio: 3 / 1;
+  left: 50%;
+  transform: translate(-50%, 0);
+  border-radius: 50%;
+  --spread: 140deg;
+  --start: 290deg;
+  mask: conic-gradient(from var(--start), white 0 var(--spread), transparent var(--spread));
+}
+
+
+.underline-overflow {
+  display: inline-block;
+  overflow: hidden;
+  padding-bottom: clamp(1rem, 2vmin, 2rem);
+}
+.underline-overflow:after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  height: 150%;
+  aspect-ratio: 2.5 / 1;
+  left: 50%;
+  transform: translate(-50%, -10%);
+  border-radius: 50%;
+  border: 6px solid hsl(355, 80%, 54%);
+}
+
+.underline-clip:after {
+  content: '';
+  position: absolute;
+  top: 95%;
+  width: 150%;
+  aspect-ratio: 3 / 1;
+  left: 50%;
+  transform: translate(-50%, 0);
+  border-radius: 50%;
+  border: 6px solid hsl(253, 100%, 9%);
+  clip-path: polygon(0 0, 50% 50%, 100% 0);
+}
+</style>
+</head>
+<body>
+<h1>WEB KASIR</h1>
+<table>
+<tr>
+<th>Nama Produk</th>
+<th>Kuantitas</th>
+<th>Harga</th>
+<th>Total</th>
+</tr>
+<tr>
+<td><input type="text" id="product_name"></td>
+<td><input type="number" id="quantity"></td>
+<td><input type="number" id="price"></td>
+<td id="total"></td>
+</tr>
+</table>
+<div class="total">TOTAL : <span id="grand_total"></span></div>
+<button onclick="printBill()">Print</button>
+<h2>Web Kasir, <span class="underlined underline-clip">XI RPL 5 </span><br>SMK<span class="underlined underline-mask"></span> Krian 1<br><span class="underlined underline-overflow">Sidoarjo</span></h1>
+
+<script>
+const urlParams = new URLSearchParams(window.location.search);
+const productName = urlParams.get('product_name');
+const quantity = urlParams.get('quantity');
+const price = urlParams.get('price');
+
+document.getElementById('product_name').value = productName;
+document.getElementById('quantity').value = quantity;
+document.getElementById('price').value = price;
+document.getElementById('total').innerText = quantity * price;
+
+function calculateTotal() {
+  const newQuantity = document.getElementById('quantity').value;
+  const newPrice = document.getElementById('price').value;
+  const newTotal = newQuantity * newPrice;
+  document.getElementById('total').innerText = newTotal;
+  document.getElementById('grand_total').innerText = newTotal;
+}
+
+document.getElementById('quantity').addEventListener('input', calculateTotal);
+document.getElementById('price').addEventListener('input', calculateTotal);
+
+function printBill() {
+  window.print();
+}
+</script>
+</body>
+</html>
